@@ -6,11 +6,21 @@ export default async function displayNewsfeed () {
 }
 
 async function getMarkup () {
-  const feed = await getFeed ();
+
+  const urlParams = new URLSearchParams (window.location.search);
+
+  if (urlParams.has('tag')) {
+    getCreateNewsTopicFeed(urlParams);
+  } else {
+    getCreateNewsStory(urlParams);
+  }
+
+  const feed = await getFeed (params);
   console.log('feed:', feed);
 
   return `<div class="newsfeed">
-		${appendHeader ()}
+    ${appendHeader ()}
+    ${getFeedMarkup(feed)}
 	</div>`;
 }
 
@@ -23,14 +33,6 @@ function appendHeader () {
 
 async function getFeed () {
   let url;
-
-  const urlParams = new URLSearchParams (window.location.search);
-
-  //   if (urlParams.has('newsteam')) {
-  //     if (urlParams.get('newsteam') === 'newsfeed') {
-  //       await displayNewsfeed()
-  //     }
-  //   }
 
   url = `https://api-ropsten.etherscan.io/api?module=logs&action=getLogs&fromBlock=0&toBlock=latest&address=${window.dapp.contracts.NewsRoom.address}&topic0=${getTopic0 (urlParams)}&topic1=${getTopic1 (urlParams)}&topic2=${getTopic2 (urlParams)}&apikey=${apiKey}`;
   
@@ -55,6 +57,10 @@ function getTopic1 (urlParams) {
 
 function getTopic2 (urlParams) {
   return '';
+}
+
+function getFeedMarkup() {
+  const {  } dapp.contracts.NewsRoom.contract.interface.events.OnCreateNewsStory.decode(temp1[0].data);
 }
 
 
