@@ -1,49 +1,37 @@
 import apiKey from '../secrets/apiKey';
 
-export default async function displayNewsfeed () {
-  document.getElementById ('place').innerHTML = await getMarkup ();
-  // addListeners();
-}
+const urlParams = new URLSearchParams (window.location.search);
 
 async function getMarkup () {
-
-  const urlParams = new URLSearchParams (window.location.search);
-
-  if (urlParams.has('tag')) {
-    getCreateNewsTopicFeed(urlParams);
-  } else {
-    getCreateNewsStory(urlParams);
-  }
-
-  const feed = await getFeed (params);
+  const feed = await getFeed();
   console.log('feed:', feed);
 
   return `<div class="newsfeed">
-    ${appendHeader ()}
-    ${getFeedMarkup(feed)}
+    <div class="feed">
+      ${getFeedMarkup(feed)}
+    </div>
 	</div>`;
 }
 
-function appendHeader () {
-  return `<div class="space">
-        <h1>THE NEWSFEED</h1>
-        <h4>Feed it to me</h4>
-    </div>`;
-}
+async function getFeed() {
+  const topic0 = getTopic0();
+  const topic1 = getTopic1();
+  const topic2 = getTopic2();
 
-async function getFeed () {
-  let url;
+  const url = getURL(topic0, topic1, topic2);
 
-  url = `https://api-ropsten.etherscan.io/api?module=logs&action=getLogs&fromBlock=0&toBlock=latest&address=${window.dapp.contracts.NewsRoom.address}&topic0=${getTopic0 (urlParams)}&topic1=${getTopic1 (urlParams)}&topic2=${getTopic2 (urlParams)}&apikey=${apiKey}`;
-  
   const response = await fetch (url).then (data => {
-    return data.json ();
+    return data.json();
   });
 
   return response.result;
 }
 
-function getTopic0 (urlParams) {
+function getURL(topic0, topic1, topic2) {
+  return `https://api-ropsten.etherscan.io/api?module=logs&action=getLogs&fromBlock=0&toBlock=latest&address=${window.dapp.contracts.NewsRoom.address}&topic0=${topic0}&topic1=${topic1}&topic2=${topic2}&apikey=${apiKey}`;
+}
+
+function getTopic0() {
   if (urlParams.has('tag')) {
     return window.dapp.contracts.NewsRoom.contract.interface.events.OnCreateNewsTopic.topic;
   }
@@ -51,24 +39,48 @@ function getTopic0 (urlParams) {
   return window.dapp.contracts.NewsRoom.contract.interface.events.OnCreateNewsStory.topic;
 }
 
-function getTopic1 (urlParams) {
+function getTopic1 () {
+  if (urlParams.has('newsteam')) {
+    return window.ethers.utils.formatBytes32String(urlParams.get('newsteam'));
+  }
   return '';
 }
 
-function getTopic2 (urlParams) {
+function getTopic2 () {
+  if (urlParams.has('tag')) {
+    return window.ethers.utils.formatBytes32String(urlParams.get('tag'));
+  }
   return '';
 }
 
-function getFeedMarkup() {
-  const {  } dapp.contracts.NewsRoom.contract.interface.events.OnCreateNewsStory.decode(temp1[0].data);
+function getFeedMarkup(feed) {
+  return feed.reduce((acc, item, index) => {
+    const data = dapp.contracts.NewsRoom.contract.interface.events.OnCreateNewsStory.decode(item.data);
+    const date = new Date(parseInt(data[5]) * 1000);
+    const newsteam = ethers.utils.parseBytes32String(item.topics[1]);
+
+    return acc + `<div class="post">
+      <div class="timestamp">${date.toDateString()}</div>
+      <div class="headline"><a href="${data[3]}" target="_blank">${data[2]}</a></div>
+      <div class="team"><a href="./?place=newsfeed&newsteam=${newsteam}">${newsteam}</a></div>
+      <div class="tags">${getTags(data[4])}</div>
+    </div>`
+  }, '');
 }
 
+function getTags(tags) {
+  return tags.reduce((acc, tag) => {
+    const _tag = ethers.utils.parseBytes32String(tag);
 
-function addListeners () {
-  // if (document.getElementById('create_news_team')) {
-  //     document.getElementById('create_news_team').addEventListener('click', createNewsTeam);
-  // }
-  // if (document.getElementById('create_news_story')) {
-  //     document.getElementById('create_news_story').addEventListener('click', createNewsStory);
-  // }
+    let href = `./?place=newsfeed&tag=${_tag}`;
+
+    if (urlParams.has('newsteam')) {
+      href += ('&newsteam=' + urlParams.get('newsteam'));
+    }
+    return acc + `<a href="${href}"><span class="tag">${_tag}</span></a>`;
+  }, '');
+}
+
+export default async function displayNewsfeed () {
+  document.getElementById ('place').innerHTML = await getMarkup ();
 }
