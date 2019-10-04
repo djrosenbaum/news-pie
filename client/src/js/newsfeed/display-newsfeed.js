@@ -62,7 +62,7 @@ function getFeedMarkup(feed) {
     return acc + `<div class="post">
       <div class="timestamp">${date.toDateString()}</div>
       <div class="headline"><a href="${data[3]}" target="_blank">${data[2]}</a></div>
-      <div class="team"><a href="./?place=newsfeed&newsteam=${newsteam}">${newsteam}</a></div>
+      <a class="team" href="./?place=newsfeed&newsteam=${newsteam}"><div>${newsteam}</div></a>
       <div class="tags">${getTags(data[4])}</div>
     </div>`
   }, '');
