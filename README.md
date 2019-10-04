@@ -11,7 +11,7 @@ Proudly built for: [Road to Dev Con: Consensys Labs Relay - Reinventing the Onli
 ## Demo
 https://djrosenbaum.github.io/news-pie/
 
-<img src="./splash.png" title="screenshot" width=600/>
+<a href="https://djrosenbaum.github.io/news-pie/"><img src="./splash.png" title="screenshot" width=600/></a>
 
 Discover posts browsing news feeds or create your own news team and post stories.
 
@@ -38,7 +38,9 @@ by Kelvin Lockwood [The Regeneration of Journalism](https://medium.com/@kelvinlo
 6. visit http://localhost:8081
 
 ## Thanks
-We were inspired by the ideas of the following news stories:
+We were inspired by the ideas of the following news sites and stories:
+
+[Hacker News](https://news.ycombinator.com/)
 
 [News Deserts](https://www.cjr.org/local_news/american-news-deserts-donuts-local.php)
 
