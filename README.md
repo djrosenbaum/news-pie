@@ -1,8 +1,8 @@
 # News Pie 📰
 
-A Decentralized News Platform powered by Ethereum for creating and browsing curated content feeds
-
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+A Decentralized News Platform powered by Ethereum for creating and browsing content feeds
 
 
 Proudly built for: [Road to Dev Con: Consensys Labs Relay - Reinventing the Online News Economy](https://gitcoin.co/issue/ConsenSys/Road-To-Devcon-Relay/2/3482)
@@ -10,9 +10,9 @@ Proudly built for: [Road to Dev Con: Consensys Labs Relay - Reinventing the Onli
 ## Demo
 https://djrosenbaum.github.io/news-pie/
 
-[![Splash](./splash.png)](https://djrosenbaum.github.io/news-pie/)
+<img src="./splash.png" title="screenshot" width=600/>
 
-Discover posts browsing news feeds or create your own news team post stories.
+Discover posts browsing news feeds or create your own news team and post stories.
 
 ## Medium Article
 by Kelvin Lockwood [The Regeneration of Journalism](https://medium.com/@kelvinlockwood/the-regeneration-of-journalism-e44528335d42)
@@ -42,3 +42,6 @@ We were inspired by the ideas of the following news stories:
 [News Deserts](https://www.cjr.org/local_news/american-news-deserts-donuts-local.php)
 
 [Future of News](https://www.bbc.co.uk/mediacentre/latestnews/2015/future-of-news)
+
+## Contributors
+See the list of [contributors](https://github.com/djrosenbaum/news-pie/contributors) who participated in writing this dapp.
